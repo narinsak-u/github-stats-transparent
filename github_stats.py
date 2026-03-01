@@ -320,29 +320,29 @@ Languages:
                         continue
                     self._ignored_repos.add(name)
 
-           for repo in repos:
-                if repo is None:
-                    continue
-                name = repo.get("nameWithOwner")
-                if name in self._repos or name in self._exclude_repos:
-                    continue
-                self._repos.add(name)
-                self._stargazers += repo.get("stargazers").get("totalCount", 0)
-                self._forks += repo.get("forkCount", 0)
+        for repo in repos:
+            if repo is None:
+                continue
+            name = repo.get("nameWithOwner")
+            if name in self._repos or name in self._exclude_repos:
+                continue
+            self._repos.add(name)
+            self._stargazers += repo.get("stargazers").get("totalCount", 0)
+            self._forks += repo.get("forkCount", 0)
 
-                for lang in repo.get("languages", {}).get("edges", []):
-                    name = lang.get("node", {}).get("name", "Other")
-                    languages = await self.languages
-                    if name in self._exclude_langs: continue
-                    if name in languages:
-                        languages[name]["size"] += lang.get("size", 0)
-                        languages[name]["occurrences"] += 1
-                    else:
-                        languages[name] = {
-                            "size": lang.get("size", 0),
-                            "occurrences": 1,
-                            "color": lang.get("node", {}).get("color")
-                        }
+            for lang in repo.get("languages", {}).get("edges", []):
+                name = lang.get("node", {}).get("name", "Other")
+                languages = await self.languages
+                if name in self._exclude_langs: continue
+                if name in languages:
+                    languages[name]["size"] += lang.get("size", 0)
+                    languages[name]["occurrences"] += 1
+                else:
+                    languages[name] = {
+                        "size": lang.get("size", 0),
+                        "occurrences": 1,
+                        "color": lang.get("node", {}).get("color")
+                    }
 
             if owned_repos.get("pageInfo", {}).get("hasNextPage", False) or \
                     contrib_repos.get("pageInfo", {}).get("hasNextPage", False):
