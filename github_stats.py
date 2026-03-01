@@ -313,12 +313,16 @@ Languages:
                 repos += contrib_repos.get("nodes", [])
             else:
                 for repo in contrib_repos.get("nodes", []):
+                    if repo is None:
+                        continue
                     name = repo.get("nameWithOwner")
                     if name in self._ignored_repos or name in self._exclude_repos:
                         continue
                     self._ignored_repos.add(name)
 
-            for repo in repos:
+           for repo in repos:
+                if repo is None:
+                    continue
                 name = repo.get("nameWithOwner")
                 if name in self._repos or name in self._exclude_repos:
                     continue
