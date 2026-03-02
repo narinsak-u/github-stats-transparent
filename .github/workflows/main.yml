@@ -38,6 +38,10 @@ jobs:
         key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
         restore-keys: |
           ${{ runner.os }}-pip-
+
+    - name: Debug token
+      run: |
+          if [ -z "$ACCESS_TOKEN" ]; then echo "ACCESS_TOKEN is EMPTY"; else echo "ACCESS_TOKEN exists"; fi
     
         
     # Install dependencies with `pip`
